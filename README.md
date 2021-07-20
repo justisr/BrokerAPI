@@ -11,7 +11,7 @@ It's a lightweight but powerful library for instantly enabling extensive cross c
 <repositories>
     <repository>
         <id>jitpack.io</id>
-		<url>https://jitpack.io</url>
+        <url>https://jitpack.io</url>
     </repository>
 </repositories>
 
