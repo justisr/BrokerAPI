@@ -1,9 +1,29 @@
-
-# BrokerAPI - An abstract transaction library
+# BrokerAPI - An abstract transaction library 
 
 An abstraction layer enabling communication between unlimited unknown callers and unlimited unknown implementations which facilitate transactions of any object, with integrated pre and post transaction events, as well as end-user control over implementation inclusion, prioritization and greediness.
 
-It's a lightweight but powerful library for instantly enabling extensive cross compatibility and flexibility without the overhead, 3rd party dependencies, version reliance, or licensing burdens and conflicts. 
+It's a lightweight but powerful library for instantly enabling extensive cross compatibility and flexibility without the overhead, 3rd party dependencies, version reliance, or licensing burdens and conflicts.
+
+
+## Include with Maven
+[![](https://jitpack.io/v/justisr/BrokerAPI.svg)](https://jitpack.io/#justisr/BrokerAPI)
+```
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.justisr</groupId>
+        <artifactId>BrokerAPI</artifactId>
+        <version>master-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+```
+Using `master-SNAPSHOT` in place of a version will always provide you the latest on the master branch. Alternatively, use the short form of your target commit.
 
 ## Implementations
 Broker currently has a Spigot server implementation and a Sponge server implementation is in the works.
