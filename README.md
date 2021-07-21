@@ -26,7 +26,7 @@ It's a lightweight but powerful library for instantly enabling extensive cross c
 Using `master-SNAPSHOT` in place of a version will always provide you the latest build for the master branch. Alternatively, use the short form of your target commit hash.
 
 ## Implementations
-Broker currently has a Spigot server implementation and a Sponge server implementation is in the works.
+Broker currently has a [Spigot](https://github.com/justisr/Broker-Spigot) server implementation and a Sponge server implementation is in the works.
 This library was designed with the present needs of the Minecraft plugin development community in mind, but with outside future use potential in heart.
 
 Seek details and examples of API usage in the README of the implementing project relevant to you.
