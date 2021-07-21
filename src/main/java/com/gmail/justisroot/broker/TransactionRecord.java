@@ -250,11 +250,24 @@ public final class TransactionRecord<T> {
 		/**
 		 * Attempt to build a successful TransactionReport for this transaction.<br>
 		 * <br>
+		 * Same as {@link #buildSuccess(Runnable)} where onComplete is null.<br>
+		 * <br>
+		 * <b>This will trigger the TransactionPreProcessEvent</b> and may result in the transaction being cancelled.<br>
+		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
+		 *
+		 * @return A TransactionReport for this transaction, potentially non-successful if cancelled by 3rd party Listeners
+		 */
+		public final TransactionRecord<T> buildSuccess() {
+			return buildSuccess(null);
+		}
+
+		/**
+		 * Attempt to build a successful TransactionReport for this transaction.<br>
+		 * <br>
 		 * <b>This will trigger the TransactionPreProcessEvent</b> and may result in the transaction being cancelled.<br>
 		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
 		 *
 		 * @param onComplete A Runnable to be called if the transaction isn't cancelled and the transaction is complete. Accepts null values.
-		 *
 		 * @return A TransactionReport for this transaction, potentially non-successful if cancelled by 3rd party Listeners
 		 */
 		public final TransactionRecord<T> buildSuccess(Runnable onComplete) {
