@@ -58,14 +58,14 @@ public final class PreProcessTransactionRecord {
 	}
 
 	/**
-	 * Get the item that was transacted.<br>
+	 * Get the object that was transacted.<br>
 	 * <br>
-	 * Could be an ItemStack, Command, Permission, etc.
+	 * Could be an ItemStack, Permission, etc.
 	 *
-	 * @return the item that was transacted
+	 * @return the object that was transacted
 	 */
-	public final Object item() {
-		return builder.item();
+	public final Object object() {
+		return builder.object();
 	}
 
 	/**

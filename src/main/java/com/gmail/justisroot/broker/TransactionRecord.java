@@ -69,11 +69,11 @@ public final class TransactionRecord<T> {
 	}
 
 	/**
-	 * Get the item involved in this transaction.
+	 * Get the object involved in this transaction.
 	 *
-	 * @return the item involved in this transaction
+	 * @return the object involved in this transaction
 	 */
-	public final T item() {
+	public final T object() {
 		return this.object;
 	}
 
@@ -180,11 +180,11 @@ public final class TransactionRecord<T> {
 		}
 
 		/**
-		 * Get the item that was transacted.
+		 * Get the object that was transacted.
 		 *
-		 * @return the item that was transacted
+		 * @return the object that was transacted
 		 */
-		public final T item() {
+		public final T object() {
 			return this.object;
 		}
 
