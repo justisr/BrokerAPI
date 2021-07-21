@@ -140,6 +140,7 @@ public final class TransactionRecord<T> {
 	public final boolean complete() {
 		if (!isSuccess() || onComplete == null) return false;
 		onComplete.run();
+		onComplete = null;
 		BrokerAPI.current().eventService().createTransactionEvent(info, this);
 		return true;
 	}
