@@ -49,12 +49,12 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * Get the price the provided player will receive for selling one of the provided Object in the provided world.<br>
 	 * Has the same functionality as {@link #getSellPrice(int)} where 'amount' is 1. <br>
 	 * <br>
-	 * <b>Always use {@link #getSelPrice(int)} when attempting to determine the price of multiple items.</b><br>
+	 * <b>Always use {@link #getSellPrice(int)} when attempting to determine the price of multiple items.</b><br>
 	 * Not all Broker implementations will have static prices. Thus, simply multiplying the price of one item by x to get the price of x items may produce incorrect results.<br>
 	 * <br>
 	 * <b>Never proceed with a sale without having run {@link #sell()}</b><br>
-	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #buy()} is there for that purpose<br>
-	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
+	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #sell()} is there for that purpose<br>
+	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
 	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
 	 *
 	 * @return An optional BigDecimal representation of the price the player will be paid as a result of selling, empty if no price is associated with this object
@@ -71,13 +71,14 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * <br>
 	 * <b>Never proceed with a sale without having run {@link #sell()}</b><br>
 	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #sell()} is there for that purpose<br>
-	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
+	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
 	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
 	 *
+	 * @param volume The amount of the object to get the sum sell price of
 	 * @return An optional BigDecimal representation of the price the player will be paid as a result of selling, empty if no price is associated with this object
 	 */
-	public final Optional<BigDecimal> getSellPrice(int amount) {
-		return broker.getSellPrice(playerID, worldID, object, amount);
+	public final Optional<BigDecimal> getSellPrice(int volume) {
+		return broker.getSellPrice(playerID, worldID, object, volume);
 	}
 
 	/**
@@ -92,6 +93,7 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks the object or is otherwise unable to receive payment.<br>
 	 * <br>
 	 * Has the same functionality as {@link #sell(int)} where 'amount' is 1.
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
 	public final TransactionRecord<T> sell() {
 		return sell(1);
@@ -108,10 +110,11 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * Call {@link TransactionRecord#complete()} once the specified funds and object have been exchanged.<br>
 	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks the object or is otherwise unable to receive payment.<br>
 	 *
-	 * @param amount The amount of stacks being sold
+	 * @param volume The amount of the object to sell
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public final TransactionRecord<T> sell(int amount) {
-		return broker.sell(playerID, worldID, object, amount);
+	public final TransactionRecord<T> sell(int volume) {
+		return broker.sell(playerID, worldID, object, volume);
 	}
 
 }

@@ -32,16 +32,16 @@ public final class TransactionRecord<T> {
 
 	private final BrokerInfo info;
 	private final boolean sale;
-	private final T item;
+	private final T object;
 	private final UUID playerID, worldID;
 	private final int volume;
 	private final BigDecimal value;
 	private final Optional<String> failReason;
 
-	private TransactionRecord(BrokerInfo info, boolean sale, T item, UUID playerID, UUID worldID, int volume, BigDecimal value, Runnable onComplete, Optional<String> failReason) {
+	private TransactionRecord(BrokerInfo info, boolean sale, T object, UUID playerID, UUID worldID, int volume, BigDecimal value, Runnable onComplete, Optional<String> failReason) {
 		this.info = info;
 		this.sale = sale;
-		this.item = item;
+		this.object = object;
 		this.volume = volume;
 		this.value = value;
 		this.playerID = playerID;
@@ -74,7 +74,7 @@ public final class TransactionRecord<T> {
 	 * @return the item involved in this transaction
 	 */
 	public final T item() {
-		return this.item;
+		return this.object;
 	}
 
 	/**
@@ -148,15 +148,15 @@ public final class TransactionRecord<T> {
 
 		private final BrokerInfo info;
 		private final boolean sale;
-		private final T item;
+		private final T object;
 		private final UUID playerID, worldID;
 		private int volume = 1;
 		private BigDecimal value = BigDecimal.ZERO;
 
-		private TransactionRecordBuilder(BrokerInfo info, boolean sale, T item, UUID playerID, UUID worldID) {
+		private TransactionRecordBuilder(BrokerInfo info, boolean sale, T object, UUID playerID, UUID worldID) {
 			this.info = info;
 			this.sale = sale;
-			this.item = item;
+			this.object = object;
 			this.playerID = playerID;
 			this.worldID = worldID;
 		}
@@ -185,7 +185,7 @@ public final class TransactionRecord<T> {
 		 * @return the item that was transacted
 		 */
 		public final T item() {
-			return this.item;
+			return this.object;
 		}
 
 		/**
@@ -274,35 +274,39 @@ public final class TransactionRecord<T> {
 		}
 
 		private final TransactionRecord<T> build(Runnable onComplete, Optional<String> failReason) {
-			return new TransactionRecord<>(info, sale, item, playerID, worldID, volume, value, onComplete, failReason);
+			return new TransactionRecord<>(info, sale, object, playerID, worldID, volume, value, onComplete, failReason);
 		}
 	}
 	/**
 	 * Start building a transaction record for a sale of the provided item with a player with the provided id.
 	 *
-	 * @param <T> The type of item being transacted
-	 * @param item The item being transacted
+	 * @param <T> The type of object being transacted
+	 * @param broker The Broker facilitating this transaction
+	 * @param object The object being transacted
 	 * @param playerID The ID of the player participating in the transaction
+	 * @param worldID The ID of the world that the transaction is taking place in
 	 * @return A new TransactionRecordBuilder with the provided data
 	 * @throws IllegalArgumentException if either provided arguments are null
 	 */
-	public static final <T> TransactionRecordBuilder<T> startSale(Broker<T> broker, T item, UUID playerID, UUID worldID) {
-		if (broker == null || item == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
-		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), true, item, playerID, worldID);
+	public static final <T> TransactionRecordBuilder<T> startSale(Broker<T> broker, T object, UUID playerID, UUID worldID) {
+		if (broker == null || object == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
+		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), true, object, playerID, worldID);
 	}
 
 	/**
 	 * Start building a transaction record for a purchase of the provided item with a player with the provided id.
 	 *
-	 * @param <T> The type of item being transacted
-	 * @param item The item being transacted
+	 * @param <T> The type of object being transacted
+	 * @param broker The Broker facilitating this transaction
+	 * @param object The object being transacted
 	 * @param playerID The ID of the player participating in the transaction
+	 * @param worldID The ID of the world that the transaction is taking place in
 	 * @return A new TransactionRecordBuilder with the provided data
 	 * @throws IllegalArgumentException if either provided arguments are null
 	 */
-	public static final <T> TransactionRecordBuilder<T> startPurchase(Broker<T> broker, T item, UUID playerID, UUID worldID) {
-		if (broker == null || item == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
-		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), false, item, playerID, worldID);
+	public static final <T> TransactionRecordBuilder<T> startPurchase(Broker<T> broker, T object, UUID playerID, UUID worldID) {
+		if (broker == null || object == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
+		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), false, object, playerID, worldID);
 	}
 
 }

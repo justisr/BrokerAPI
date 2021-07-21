@@ -94,12 +94,12 @@ public final class BrokerAPI {
 	/**
 	 * Unregister a Broker instance by name.
 	 *
-	 * @param brokerName the name of the Broker instance to unregister
+	 * @param brokerID the ID of the Broker instance to unregister
 	 * @return true if the Broker was successfully unregistered, false if it wasn't registered to begin with
 	 */
-	public synchronized final boolean unregister(String brokerName) {
-		if (brokerName == null || !brokers.containsKey(brokerName)) return false;
-		PrioritizedBroker<?, ?> entry = brokers.remove(brokerName);
+	public synchronized final boolean unregister(String brokerID) {
+		if (brokerID == null || !brokers.containsKey(brokerID)) return false;
+		PrioritizedBroker<?, ?> entry = brokers.remove(brokerID);
 		boolean removed = similar.remove(entry);
 		if (removed) eventService.createUnregistrationEvent(BrokerInfo.get(entry.get()));
 		return removed;
@@ -116,11 +116,11 @@ public final class BrokerAPI {
 
 	/**
 	 * Return whether or not the Broker implementation with the given ID is registered
-	 * @param brokername the ID of the Broker to check if registered
+	 * @param brokerID the ID of the Broker to check if registered
 	 * @return true if the Broker is registered, false if not
 	 */
-	public synchronized final boolean isRegistered(String brokerName) {
-		return brokers.containsKey(brokerName);
+	public synchronized final boolean isRegistered(String brokerID) {
+		return brokers.containsKey(brokerID);
 	}
 
 	/**

@@ -132,6 +132,7 @@ public interface Broker<T> {
 	 * @param worldID The UUID of the world in which the transaction is taking place
 	 * @param object The Object being transacted
 	 * @param amount The amount of stacks being purchased
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
 	public TransactionRecord<T> buy(UUID playerID, UUID worldID, T object, int amount);
 
@@ -143,6 +144,7 @@ public interface Broker<T> {
 	 * @param worldID The UUID of the world in which the transaction is taking place
 	 * @param object The Object being transacted
 	 * @param amount The amount of stacks being sold
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
 	public TransactionRecord<T> sell(UUID playerID, UUID worldID, T object, int amount);
 

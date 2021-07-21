@@ -75,10 +75,11 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
 	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
 	 *
+	 * @param volume The amount of the object to get the sum buy price of
 	 * @return An optional BigDecimal representation of the price the player will need to pay in order to buy these objects, empty if no price is associated with this object
 	 */
-	public final Optional<BigDecimal> getBuyPrice(int amount) {
-		return broker.getSellPrice(playerID, worldID, object, amount);
+	public final Optional<BigDecimal> getBuyPrice(int volume) {
+		return broker.getSellPrice(playerID, worldID, object, volume);
 	}
 
 	/**
@@ -93,6 +94,7 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks funds or is otherwise unable to receive the object.<br>
 	 * <br>
 	 * Has the same functionality as {@link #buy(int)} where 'amount' is 1.
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
 	public final TransactionRecord<T> buy() {
 		return buy(1);
@@ -108,9 +110,11 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * <br>
 	 * Call {@link TransactionRecord#complete()} once the specified funds and object have been exchanged.<br>
 	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks funds or is otherwise unable to receive the object.<br>
+	 * @param volume The amount of the object to buy
+	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public final TransactionRecord<T> buy(int amount) {
-		return broker.buy(playerID, worldID, object, amount);
+	public final TransactionRecord<T> buy(int volume) {
+		return broker.buy(playerID, worldID, object, volume);
 	}
 
 
