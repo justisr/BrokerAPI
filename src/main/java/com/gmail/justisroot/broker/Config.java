@@ -44,9 +44,9 @@ final class Config {
 
 	private final void applyDefaults() {
 		String[] header = {
-				"############################",
-				"# - Broker Configuration - #",
-				"############################",
+				"##############",
+				"# - Broker - # config.hmff",
+				"##############",
 				"- hmff syntax for Sublime Text: https://gist.github.com/justisr/6be4be9b7cd1bef1547c7ada26cdbc4d",
 				"",
 				"Settings for unregistered Brokers are ignored.",
