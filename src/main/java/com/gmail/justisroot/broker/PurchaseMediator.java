@@ -79,7 +79,7 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * @return An optional BigDecimal representation of the price the player will need to pay in order to buy these objects, empty if no price is associated with this object
 	 */
 	public final Optional<BigDecimal> getBuyPrice(int volume) {
-		return broker.getSellPrice(playerID, worldID, object, volume);
+		return broker.getBuyPrice(playerID, worldID, object, volume);
 	}
 
 	/**
