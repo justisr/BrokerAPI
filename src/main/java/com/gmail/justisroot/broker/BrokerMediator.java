@@ -22,6 +22,7 @@
  */
 package com.gmail.justisroot.broker;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -32,14 +33,14 @@ abstract class BrokerMediator<T> {
 
 	protected final Broker<T> broker;
 	protected final BrokerInfo info;
-	protected final UUID playerID, worldID;
+	protected final Optional<UUID> playerID, worldID;
 	protected final T object;
 
 	BrokerMediator(Broker<T> broker, UUID playerID, UUID worldID, T object) {
 		this.broker = broker;
 		this.info = BrokerInfo.get(broker);
-		this.playerID = playerID;
-		this.worldID = worldID;
+		this.playerID = Optional.ofNullable(playerID);
+		this.worldID = Optional.ofNullable(worldID);
 		this.object = object;
 	}
 
@@ -53,20 +54,20 @@ abstract class BrokerMediator<T> {
 	}
 
 	/**
-	 * Get the UUID of the player making the transaction.
+	 * Get the optional UUID of the player making the transaction.
 	 *
-	 * @return the UUID of the player making the transaction
+	 * @return An optional UUID of the player making the transaction
 	 */
-	public final UUID getPlayerID() {
+	public final Optional<UUID> getPlayerID() {
 		return playerID;
 	}
 
 	/**
-	 * Get the UUID of the world that this transaction is taking place in.
+	 * Get the optional UUID of the world that this transaction is taking place in.
 	 *
-	 * @return the UUID of the world being transacted in
+	 * @return An optional UUID of the world being transacted in
 	 */
-	public final UUID getWorldID() {
+	public final Optional<UUID> getWorldID() {
 		return worldID;
 	}
 

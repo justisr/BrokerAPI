@@ -152,14 +152,16 @@ public final class BrokerAPI {
 	 * @return an Optional containing a BrokerMediator for the provided player in the provided world and the provided Object, empty if no Broker is available for this transaction
 	 */
 	public synchronized final <T> Optional<PurchaseMediator<T>> forPurchase(UUID playerID, UUID worldID, T object) {
+		if (object == null) return Optional.empty();
 		@SuppressWarnings("unchecked")
 		Optional<SimilarBrokers<T>> ofType = similar.get((Class<T>) object.getClass());
 		if (ofType.isEmpty()) return Optional.empty();
 		Iterator<PrioritizedBroker<T, ?>> iterator = ofType.get().iterator();
 		while (iterator.hasNext()) {
 			PrioritizedBroker<T, ?> next = iterator.next();
-			if (config.isGenerous(next.get()) && !next.get().canBeBought(playerID, worldID, object)) continue;
-			if (next.get().handlesPurchases(playerID, worldID, object)) return Optional.of(new PurchaseMediator<>(next.get(), playerID, worldID, object));
+			if (config.isGenerous(next.get()) && !next.get().canBeBought(Optional.ofNullable(playerID), Optional.ofNullable(worldID), object)) continue;
+			if (next.get().handlesPurchases(Optional.ofNullable(playerID), Optional.ofNullable(worldID), object))
+				return Optional.of(new PurchaseMediator<>(next.get(), playerID, worldID, object));
 		}
 		return Optional.empty();
 	}
@@ -174,14 +176,16 @@ public final class BrokerAPI {
 	 * @return an Optional containing a SaleMediator for the provided player in the provided world with the provided Object, empty if no Broker is available for this transaction
 	 */
 	public synchronized final <T> Optional<SaleMediator<T>> forSale(UUID playerID, UUID worldID, T object) {
+		if (object == null) return Optional.empty();
 		@SuppressWarnings("unchecked")
 		Optional<SimilarBrokers<T>> ofType = similar.get((Class<T>) object.getClass());
 		if (ofType.isEmpty()) return Optional.empty();
 		Iterator<PrioritizedBroker<T, ?>> iterator = ofType.get().iterator();
 		while (iterator.hasNext()) {
 			PrioritizedBroker<T, ?> next = iterator.next();
-			if (config.isGenerous(next.get()) && !next.get().canBeSold(playerID, worldID, object)) continue;
-			if (next.get().handlesSales(playerID, worldID, object)) return Optional.of(new SaleMediator<>(next.get(), playerID, worldID, object));
+			if (config.isGenerous(next.get()) && !next.get().canBeSold(Optional.ofNullable(playerID), Optional.ofNullable(worldID), object)) continue;
+			if (next.get().handlesSales(Optional.ofNullable(playerID), Optional.ofNullable(worldID), object))
+				return Optional.of(new SaleMediator<>(next.get(), playerID, worldID, object));
 		}
 		return Optional.empty();
 	}

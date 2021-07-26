@@ -23,6 +23,7 @@
 package com.gmail.justisroot.broker;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.gmail.justisroot.broker.TransactionRecord.TransactionRecordBuilder;
@@ -69,20 +70,20 @@ public final class PreProcessTransactionRecord {
 	}
 
 	/**
-	 * Get the UUID of the player involved in this transaction.
+	 * Get the optional UUID of the player involved in this transaction.
 	 *
-	 * @return the UUID of the player involved in this transaction
+	 * @return An optional UUID of the player involved in this transaction
 	 */
-	public final UUID playerID() {
+	public final Optional<UUID> playerID() {
 		return builder.playerID();
 	}
 
 	/**
-	 * Get the UUID of the world involved in this transaction.
+	 * Get the optional UUID of the world involved in this transaction.
 	 *
-	 * @return the UUID of the world involved in this transaction
+	 * @return An optional UUID of the world involved in this transaction
 	 */
-	public final UUID worldID() {
+	public final Optional<UUID> worldID() {
 		return builder.worldID();
 	}
 

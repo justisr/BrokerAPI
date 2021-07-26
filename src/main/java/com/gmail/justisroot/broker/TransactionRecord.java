@@ -33,12 +33,12 @@ public final class TransactionRecord<T> {
 	private final BrokerInfo info;
 	private final boolean sale;
 	private final T object;
-	private final UUID playerID, worldID;
+	private final Optional<UUID> playerID, worldID;
 	private final int volume;
 	private final BigDecimal value;
 	private final Optional<String> failReason;
 
-	private TransactionRecord(BrokerInfo info, boolean sale, T object, UUID playerID, UUID worldID, int volume, BigDecimal value, Runnable onComplete, Optional<String> failReason) {
+	private TransactionRecord(BrokerInfo info, boolean sale, T object, Optional<UUID> playerID, Optional<UUID> worldID, int volume, BigDecimal value, Runnable onComplete, Optional<String> failReason) {
 		this.info = info;
 		this.sale = sale;
 		this.object = object;
@@ -96,20 +96,20 @@ public final class TransactionRecord<T> {
 	}
 
 	/**
-	 * Get the UUID of the player associated with this transaction.
+	 * Get the optional UUID of the player associated with this transaction.
 	 *
-	 * @return the UUID of the player associated with this transaction
+	 * @return An optional UUID of the player associated with this transaction
 	 */
-	public final UUID playerID() {
+	public final Optional<UUID> playerID() {
 		return this.playerID;
 	}
 
 	/**
-	 * Get the UUID of the world associated with this transaction.
+	 * Get the optional UUID of the world associated with this transaction.
 	 *
-	 * @return the UUID of the world associated with this transaction
+	 * @return An optional UUID of the world associated with this transaction
 	 */
-	public final UUID wordID() {
+	public final Optional<UUID> wordID() {
 		return this.worldID;
 	}
 
@@ -150,11 +150,11 @@ public final class TransactionRecord<T> {
 		private final BrokerInfo info;
 		private final boolean sale;
 		private final T object;
-		private final UUID playerID, worldID;
+		private final Optional<UUID> playerID, worldID;
 		private int volume = 1;
 		private BigDecimal value = BigDecimal.ZERO;
 
-		private TransactionRecordBuilder(BrokerInfo info, boolean sale, T object, UUID playerID, UUID worldID) {
+		private TransactionRecordBuilder(BrokerInfo info, boolean sale, T object, Optional<UUID> playerID, Optional<UUID> worldID) {
 			this.info = info;
 			this.sale = sale;
 			this.object = object;
@@ -190,20 +190,20 @@ public final class TransactionRecord<T> {
 		}
 
 		/**
-		 * Get the UUID of the player involved in this transaction.
+		 * Get the optional UUID of the player involved in this transaction.
 		 *
-		 * @return the UUID of the player involved in this transaction
+		 * @return An optional UUID of the player involved in this transaction
 		 */
-		public final UUID playerID() {
+		public final Optional<UUID> playerID() {
 			return this.playerID;
 		}
 
 		/**
-		 * Get the UUID of the world associated with this transaction.
+		 * Get the optional UUID of the world associated with this transaction.
 		 *
-		 * @return the UUID of the world associated with this transaction
+		 * @return An optional UUID of the world associated with this transaction
 		 */
-		public final UUID worldID() {
+		public final Optional<UUID> worldID() {
 			return this.worldID;
 		}
 
@@ -302,7 +302,7 @@ public final class TransactionRecord<T> {
 	 * @return A new TransactionRecordBuilder with the provided data
 	 * @throws IllegalArgumentException if either provided arguments are null
 	 */
-	public static final <T> TransactionRecordBuilder<T> startSale(Broker<T> broker, T object, UUID playerID, UUID worldID) {
+	public static final <T> TransactionRecordBuilder<T> startSale(Broker<T> broker, T object, Optional<UUID> playerID, Optional<UUID> worldID) {
 		if (broker == null || object == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
 		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), true, object, playerID, worldID);
 	}
@@ -318,7 +318,7 @@ public final class TransactionRecord<T> {
 	 * @return A new TransactionRecordBuilder with the provided data
 	 * @throws IllegalArgumentException if either provided arguments are null
 	 */
-	public static final <T> TransactionRecordBuilder<T> startPurchase(Broker<T> broker, T object, UUID playerID, UUID worldID) {
+	public static final <T> TransactionRecordBuilder<T> startPurchase(Broker<T> broker, T object, Optional<UUID> playerID, Optional<UUID> worldID) {
 		if (broker == null || object == null || playerID == null || worldID == null) throw new IllegalArgumentException("No null arguments!");
 		return new TransactionRecordBuilder<>(BrokerInfo.get(broker), false, object, playerID, worldID);
 	}
