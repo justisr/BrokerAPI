@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -30,7 +31,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 class BrokerEventTest {
-
 
 	private static File folder;
 
@@ -51,7 +51,6 @@ class BrokerEventTest {
 
 	private boolean registrationFired, unregistrationFired, transactionFired, preprocessTransactionFired, cancelled;
 
-
 	@BeforeAll
 	@DisplayName("Register event handlers")
 	void registerEventHandlers() {
@@ -64,11 +63,10 @@ class BrokerEventTest {
 		});
 	}
 
-	@BeforeAll
+	@AfterAll
 	@DisplayName("Resetting Configuration")
 	void resetConfig() {
-		config.clear();
-		config.reload();
+		config.delete();
 	}
 
 	@Test
@@ -103,11 +101,11 @@ class BrokerEventTest {
 		assertTrue(bp.isPresent(), "No Broker was returned for string \"1\"");
 		assertTrue(bp.get().getBrokerInfo().id().equals(IntegerBroker.ID), "IntegerBroker was expected but was not returned. " + bp.get().getBrokerInfo().id() + " returned instead");
 		cancelled = true;
-		bp.get().buy();
+		bp.get().buy().complete();
 		assertTrue(preprocessTransactionFired, "The transaction was started, but the preprocess event didn't get marked as fired");
 		assertTrue(!transactionFired, "The transaction should have been cancelled, but the event was still marked as fired");
 		cancelled = false;
-		bp.get().buy();
+		bp.get().buy().complete();
 		assertTrue(transactionFired, "The transaction was fired without being cancelled, but the transaction event was not marked as fired");
 	}
 

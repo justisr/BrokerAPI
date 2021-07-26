@@ -7,6 +7,7 @@
  */
 package com.gmail.justisroot.broker;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -28,7 +29,7 @@ public class AlphanumericBroker extends MockBroker {
 	}
 
 	@Override
-	public boolean handlesPurchases(UUID playerID, UUID worldID, String object) {
+	public boolean handlesPurchases(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		for (int i = 0; i < object.length(); i++){
 			char c = object.charAt(i);
 			if (!Character.isLetterOrDigit(c)) return false;
@@ -37,7 +38,7 @@ public class AlphanumericBroker extends MockBroker {
 	}
 
 	@Override
-	public boolean handlesSales(UUID playerID, UUID worldID, String object) {
+	public boolean handlesSales(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		for (int i = 0; i < object.length(); i++){
 			char c = object.charAt(i);
 			if (!Character.isLetterOrDigit(c)) return false;

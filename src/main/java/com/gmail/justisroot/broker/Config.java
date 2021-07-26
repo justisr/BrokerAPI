@@ -15,9 +15,6 @@
 package com.gmail.justisroot.broker;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -64,13 +61,8 @@ final class Config {
 		file.save();
 	}
 
-	final void clear() {
-		try {
-			Files.newInputStream(file.getFile().toPath(), StandardOpenOption.TRUNCATE_EXISTING);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		file.reload();
+	final void delete() {
+		file.getFile().delete();
 	}
 
 	final void reload() {

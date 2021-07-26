@@ -7,6 +7,7 @@
  */
 package com.gmail.justisroot.broker;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -23,7 +24,7 @@ public class NaNBroker extends MockBroker {
 	}
 
 	@Override
-	public boolean handlesPurchases(UUID playerID, UUID worldID, String object) {
+	public boolean handlesPurchases(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		try {
 			Double.valueOf(object);
 			return false;
@@ -32,7 +33,7 @@ public class NaNBroker extends MockBroker {
 	}
 
 	@Override
-	public boolean handlesSales(UUID playerID, UUID worldID, String object) {
+	public boolean handlesSales(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		try {
 			Double.valueOf(object);
 			return false;

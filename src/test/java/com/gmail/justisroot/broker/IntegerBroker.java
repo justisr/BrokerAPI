@@ -7,6 +7,7 @@
  */
 package com.gmail.justisroot.broker;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -23,7 +24,12 @@ public class IntegerBroker extends MockBroker {
 	}
 
 	@Override
-	public boolean handlesPurchases(UUID playerID, UUID worldID, String object) {
+	public byte getPriority() {
+		return 10;
+	}
+
+	@Override
+	public boolean handlesPurchases(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		try {
 			Integer.parseInt(object);
 			return true;
@@ -33,7 +39,7 @@ public class IntegerBroker extends MockBroker {
 
 
 	@Override
-	public boolean handlesSales(UUID playerID, UUID worldID, String object) {
+	public boolean handlesSales(Optional<UUID> playerID, Optional<UUID> worldID, String object) {
 		try {
 			Integer.parseInt(object);
 			return true;
