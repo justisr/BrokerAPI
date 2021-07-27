@@ -28,11 +28,11 @@ import java.util.UUID;
 
 import com.gmail.justisroot.broker.TransactionRecord.TransactionRecordBuilder;
 
-public final class PreProcessTransactionRecord<T> {
+public final class PreProcessTransactionRecord {
 
-	private final TransactionRecordBuilder<T> builder;
+	private final TransactionRecordBuilder<?> builder;
 
-	PreProcessTransactionRecord(TransactionRecordBuilder<T> builder) {
+	PreProcessTransactionRecord(TransactionRecordBuilder<?> builder) {
 		this.builder = builder;
 	}
 
@@ -61,7 +61,7 @@ public final class PreProcessTransactionRecord<T> {
 	 *
 	 * @return the object that was transacted
 	 */
-	public final T object() {
+	public final Object object() {
 		return builder.object();
 	}
 
