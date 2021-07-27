@@ -26,12 +26,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * @author Justis R
- *
- */
 public final class PurchaseMediator<T> extends BrokerMediator<T> {
-
 
 	PurchaseMediator(Broker<T> broker, UUID playerID, UUID worldID, T object) {
 		super(broker, playerID, worldID, object);

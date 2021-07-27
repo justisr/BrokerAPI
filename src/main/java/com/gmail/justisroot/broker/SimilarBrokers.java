@@ -28,8 +28,6 @@ import java.util.TreeSet;
 /**
  * A collection of Broker instances all handling the same Object type, ordered by priority.
  *
- * @author Justis R
- *
  * @param <T> The Type that the contained Broker instances all handle
  */
 final class SimilarBrokers<T> {

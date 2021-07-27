@@ -25,10 +25,6 @@ package com.gmail.justisroot.broker;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author Justis R
- *
- */
 public final class BrokerInfo {
 
 	private static final Map<Broker<?>, BrokerInfo> CACHE = new HashMap<>();

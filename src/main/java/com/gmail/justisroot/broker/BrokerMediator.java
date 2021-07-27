@@ -25,10 +25,6 @@ package com.gmail.justisroot.broker;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * @author Justis R
- *
- */
 abstract class BrokerMediator<T> {
 
 	protected final Broker<T> broker;

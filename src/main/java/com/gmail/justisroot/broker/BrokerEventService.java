@@ -22,10 +22,6 @@
  */
 package com.gmail.justisroot.broker;
 
-/**
- * @author Justis R
- *
- */
 final class BrokerEventService {
 
 	private BrokerEventHandler regHandler;

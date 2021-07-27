@@ -28,10 +28,6 @@ import java.util.UUID;
 
 import com.gmail.justisroot.broker.TransactionRecord.TransactionRecordBuilder;
 
-/**
- * @author Justis R
- *
- */
 public final class PreProcessTransactionRecord {
 
 	private final TransactionRecordBuilder<?> builder;

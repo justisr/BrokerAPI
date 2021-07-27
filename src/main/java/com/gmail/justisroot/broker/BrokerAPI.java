@@ -29,12 +29,21 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Provides an abstraction layer for transactions.<br>
+ * <br>
+ * This is the access point for Broker callers and the point of registration management for Broker implementors.<br>
+ * Project maintained here: <a href="https://github.com/justisr/BrokerAPI">https://github.com/justisr/BrokerAPI</a>
+ */
 public final class BrokerAPI {
 
 	private static BrokerAPI instance;
 
-	private final BrokerEventService eventService = new BrokerEventService();
 	private final Config config;
+	private final BrokerEventService eventService = new BrokerEventService();
+
+	private SimilarMap similar = new SimilarMap();
+	private Map<String, PrioritizedBroker<?, ?>> brokers = new HashMap<>();
 
 	BrokerAPI(Config config) {
 		this.config = config;
@@ -50,14 +59,21 @@ public final class BrokerAPI {
 		return instance;
 	}
 
+	/**
+	 * Get the internal event service
+	 *
+	 * @return the internal event service
+	 */
 	final BrokerEventService eventService() {
 		return instance.eventService;
 	}
 
-	private Map<String, PrioritizedBroker<?, ?>> brokers = new HashMap<>();
-	private SimilarMap similar = new SimilarMap();
-
-	Map<Class<?>, SimilarBrokers<?>> brokers() {
+	/**
+	 * Get a raw map of type grouped brokers
+	 *
+	 * @return a raw map of type grouped brokers
+	 */
+	final Map<Class<?>, SimilarBrokers<?>> brokers() {
 		return similar.rawMap();
 	}
 

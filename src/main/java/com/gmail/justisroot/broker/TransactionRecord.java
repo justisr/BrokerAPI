@@ -26,6 +26,12 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * A record of a potentially cancelled or incomplete transaction.<br>
+ * The record is only complete once the transaction initiator has run {@link #complete()}
+ *
+ * @param <T> The object type that this record's transaction handles
+ */
 public final class TransactionRecord<T> {
 
 	private Runnable onComplete;
@@ -145,6 +151,12 @@ public final class TransactionRecord<T> {
 		return true;
 	}
 
+	/**
+	 * A builder for the record of a transaction attempt.<br>
+	 * Changes resulting from the success of the representing transaction should only take place within the {@code Runnable} submitted via {@link #buildSuccess(Runnable)}
+	 *
+	 * @param <T> The object type that this record's transaction handles
+	 */
 	public static final class TransactionRecordBuilder<T> {
 
 		private final BrokerInfo info;
