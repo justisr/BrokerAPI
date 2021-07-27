@@ -73,8 +73,17 @@ public final class BrokerAPI {
 	 *
 	 * @return a raw map of type grouped brokers
 	 */
-	final Map<Class<?>, SimilarBrokers<?>> brokers() {
+	final Map<Class<?>, SimilarBrokers<?>> brokerMap() {
 		return similar.rawMap();
+	}
+
+	/**
+	 * Get a collection of the installed brokers
+	 *
+	 * @return collection of installed brokers
+	 */
+	final Collection<PrioritizedBroker<?, ?>> brokers() {
+		return brokers.values();
 	}
 
 	/**
