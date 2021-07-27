@@ -1,4 +1,4 @@
-# BrokerAPI - An abstract transaction library 
+# BrokerAPI - A transaction abstraction library 
 
 An abstraction layer enabling communication between unlimited unknown callers and unlimited unknown implementations which facilitate transactions of any object, with integrated pre and post transaction events, as well as end-user control over implementation inclusion, prioritization and greediness.
 
