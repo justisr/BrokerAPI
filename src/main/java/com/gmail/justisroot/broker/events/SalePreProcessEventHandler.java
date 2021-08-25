@@ -20,10 +20,19 @@
  * SOFTWARE.
  *
  */
-package com.gmail.justisroot.broker;
+package com.gmail.justisroot.broker.events;
 
-interface BrokerEventHandler {
+import com.gmail.justisroot.broker.BrokerInfo;
+import com.gmail.justisroot.broker.record.PreProcessSaleRecord;
 
-	void run(BrokerInfo info);
+interface SalePreProcessEventHandler {
+
+	/**
+	 * Run the event
+	 * @param info the BrokerInfo associated with this event
+	 * @param preProcessSaleRecord the PreProcessSaleRecord associated with this event
+	 * @return true if the event was cancelled, otherwise false
+	 */
+	boolean run(BrokerInfo info, PreProcessSaleRecord preProcessSaleRecord);
 
 }

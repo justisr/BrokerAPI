@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gmail.justisroot.broker.events.BrokerEventService;
+
 /**
  * Provides an abstraction layer for transactions.<br>
  * <br>
@@ -40,7 +42,6 @@ public final class BrokerAPI {
 	private static BrokerAPI instance;
 
 	private final Config config;
-	private final BrokerEventService eventService = new BrokerEventService();
 
 	private SimilarMap similar = new SimilarMap();
 	private Map<String, PrioritizedBroker<?, ?>> brokers = new HashMap<>();
@@ -57,15 +58,6 @@ public final class BrokerAPI {
 	 */
 	public static final BrokerAPI current() {
 		return instance;
-	}
-
-	/**
-	 * Get the internal event service
-	 *
-	 * @return the internal event service
-	 */
-	final BrokerEventService eventService() {
-		return instance.eventService;
 	}
 
 	/**
@@ -102,7 +94,7 @@ public final class BrokerAPI {
 		config.ensureEntry(broker);
 		brokers.put(broker.getId(), entry);
 		similar.add(entry);
-		eventService.createRegistrationEvent(BrokerInfo.get(broker));
+		BrokerEventService.current().createRegistrationEvent(BrokerInfo.get(broker));
 		return true;
 	}
 
@@ -126,7 +118,7 @@ public final class BrokerAPI {
 		if (brokerID == null || !brokers.containsKey(brokerID)) return false;
 		PrioritizedBroker<?, ?> entry = brokers.remove(brokerID);
 		boolean removed = similar.remove(entry);
-		if (removed) eventService.createUnregistrationEvent(BrokerInfo.get(entry.get()));
+		if (removed) BrokerEventService.current().createUnregistrationEvent(BrokerInfo.get(entry.get()));
 		return removed;
 	}
 

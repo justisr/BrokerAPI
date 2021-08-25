@@ -96,7 +96,7 @@ class BrokerTest {
 	@Order(3)
 	@DisplayName("Verify non-string BigDecimals do not return a Broker")
 	void nonStringTest() {
-		Optional<PurchaseMediator<BigDecimal>> optional = api.forPurchase(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("0"));
+		Optional<PurchaseMediator<BigDecimal>> optional = api.forPurchase(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.ZERO);
 		assertTrue(optional.isEmpty(), () -> optional.get().getBrokerInfo().id() + " was returned for a non-string when no return was expected");
 	}
 
@@ -105,7 +105,7 @@ class BrokerTest {
 	@DisplayName("Register BigDecimal Broker and ensure that it is returned for BigDecimals")
 	void bigDecimalTest() {
 		api.register(bigDBroker);
-		Optional<PurchaseMediator<BigDecimal>> optional = api.forPurchase(UUID.randomUUID(), UUID.randomUUID(), new BigDecimal("0"));
+		Optional<PurchaseMediator<BigDecimal>> optional = api.forPurchase(UUID.randomUUID(), UUID.randomUUID(), BigDecimal.ZERO);
 		assertTrue(optional.isPresent(), "A Broker failed to be provided");
 		String id = optional.get().getBrokerInfo().id();
 		assertTrue(id.equals(BigDecimalBroker.ID), id + " was returned for a BigDecimal value when BigDecimalBroker was expected");

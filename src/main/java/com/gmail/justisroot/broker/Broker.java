@@ -27,6 +27,9 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gmail.justisroot.broker.record.PurchaseRecord;
+import com.gmail.justisroot.broker.record.SaleRecord;
+
 public interface Broker<T> {
 
 	/**
@@ -132,9 +135,9 @@ public interface Broker<T> {
 	 * @param worldID An optional UUID of the world in which the transaction is taking place
 	 * @param object The Object being transacted
 	 * @param amount The amount of stacks being purchased
-	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
+	 * @return A PurchaseRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public TransactionRecord<T> buy(Optional<UUID> playerID, Optional<UUID> worldID, T object, int amount);
+	public PurchaseRecord<T> buy(Optional<UUID> playerID, Optional<UUID> worldID, T object, int amount);
 
 	/**
 	 * Have the provided player sell a specified amount of the provided Object in the provided world.<br>
@@ -144,9 +147,9 @@ public interface Broker<T> {
 	 * @param worldID An optional UUID of the world in which the transaction is taking place
 	 * @param object The Object being transacted
 	 * @param amount The amount of stacks being sold
-	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
+	 * @return A SaleRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public TransactionRecord<T> sell(Optional<UUID> playerID, Optional<UUID> worldID, T object, int amount);
+	public SaleRecord<T> sell(Optional<UUID> playerID, Optional<UUID> worldID, T object, int amount);
 
 	/**
 	 * Get a player friendly display name for the provided Object.<br>

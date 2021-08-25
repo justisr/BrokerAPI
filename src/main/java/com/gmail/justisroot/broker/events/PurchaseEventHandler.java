@@ -20,53 +20,18 @@
  * SOFTWARE.
  *
  */
-package com.gmail.justisroot.broker;
+package com.gmail.justisroot.broker.events;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.gmail.justisroot.broker.BrokerInfo;
+import com.gmail.justisroot.broker.record.PurchaseRecord;
 
-public final class BrokerInfo {
-
-	private static final Map<Broker<?>, BrokerInfo> CACHE = new HashMap<>();
-
-	private final String id, provider;
-	private final Class<?> type;
-
-	private BrokerInfo(Broker<?> broker) {
-		this.id = broker.getId();
-		this.provider = broker.getProvider();
-		this.type = broker.getType();
-	}
-
-	public static final BrokerInfo get(Broker<?> broker) {
-		BrokerInfo info = CACHE.get(broker);
-		if (info == null) CACHE.put(broker, info = new BrokerInfo(broker));
-		return info;
-	}
+interface PurchaseEventHandler {
 
 	/**
-	 * Get the name of the provider of the Broker involved in this event
-	 * @return the name of the provider of the involved Broker
+	 * Run the event
+	 * @param info the BrokerInfo associated with this event
+	 * @param record the PurchaseRecord associated with this event
 	 */
-	public final String provider() {
-		return this.provider;
-	}
+	void run(BrokerInfo info, PurchaseRecord<?> record);
 
-	/**
-	 * Get the ID of the Broker involved in this event.
-	 *
-	 * @return the ID of the Broker involved in this event
-	 */
-	public final String id() {
-		return this.id;
-	}
-
-	/**
-	 * Get the Object type that this Broker handles.
-	 *
-	 * @return the Object type that this Broker handles
-	 */
-	public final Class<?> type() {
-		return this.type;
-	}
 }

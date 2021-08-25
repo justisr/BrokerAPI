@@ -26,6 +26,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gmail.justisroot.broker.record.PurchaseRecord;
+
 public final class PurchaseMediator<T> extends BrokerMediator<T> {
 
 	PurchaseMediator(Broker<T> broker, UUID playerID, UUID worldID, T object) {
@@ -81,17 +83,17 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * Have the provided player buy one of the provided Object in the provided world.<br>
 	 * <br>
 	 * Triggers the transaction pre-process event. Future versions may allow for 3rd party modifications.<br>
-	 * Exchange no more or less than what the returned {@link TransactionRecord} specifies should be exchanged.<br>
+	 * Exchange no more or less than what the returned {@link PurchaseRecord} specifies should be exchanged.<br>
 	 * <br>
 	 * <b>Do not proceed with the transaction if this record does not denote a success</b><br>
 	 * <br>
-	 * Call {@link TransactionRecord#complete()} once the specified funds and object have been exchanged.<br>
-	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks funds or is otherwise unable to receive the object.<br>
+	 * Call {@link PurchaseRecord#complete()} once the transaction has been completed. (i.e funds transferred, items moved, etc)<br>
 	 * <br>
 	 * Has the same functionality as {@link #buy(int)} where 'amount' is 1.
-	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
+	 *
+	 * @return A PurchaseRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public final TransactionRecord<T> buy() {
+	public final PurchaseRecord<T> buy() {
 		return buy(1);
 	}
 
@@ -99,16 +101,16 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * Have the provided player buy a specified amount of the provided Object in the provided world.<br>
 	 * <br>
 	 * Triggers the transaction pre-process event. Future versions may allow for 3rd party modifications..<br>
-	 * Exchange no more or less than what the returned {@link TransactionRecord} specifies should be exchanged.<br>
+	 * Exchange no more or less than what the returned {@link PurchaseRecord} specifies should be exchanged.<br>
 	 * <br>
 	 * <b>Do not proceed with the transaction if this record does not denote a success</b><br>
 	 * <br>
-	 * Call {@link TransactionRecord#complete()} once the specified funds and object have been exchanged.<br>
-	 * Do not {@code complete()} the {@link TransactionRecord} if the player lacks funds or is otherwise unable to receive the object.<br>
+	 * Call {@link PurchaseRecord#complete()} once the transaction has been completed. (i.e funds transferred, items moved, etc)
+	 *
 	 * @param volume The amount of the object to buy
-	 * @return A TransactionRecord representing the details of the transaction, including the transaction's success or failure
+	 * @return A PurchaseRecord representing the details of the transaction, including the transaction's success or failure
 	 */
-	public final TransactionRecord<T> buy(int volume) {
+	public final PurchaseRecord<T> buy(int volume) {
 		return broker.buy(playerID, worldID, object, volume);
 	}
 

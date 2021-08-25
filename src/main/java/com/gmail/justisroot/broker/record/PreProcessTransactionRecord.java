@@ -20,15 +20,60 @@
  * SOFTWARE.
  *
  */
-package com.gmail.justisroot.broker;
+package com.gmail.justisroot.broker.record;
 
-interface TransactionEventHandler {
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.UUID;
+
+import com.gmail.justisroot.broker.record.TransactionRecord.TransactionRecordBuilder;
+
+abstract class PreProcessTransactionRecord implements Transaction<Object> {
+
+	private final TransactionRecordBuilder<?> builder;
+
+	PreProcessTransactionRecord(TransactionRecordBuilder<?> builder) {
+		this.builder = builder;
+	}
 
 	/**
-	 * Run the event
-	 * @param info the BrokerInfo associated with this event
-	 * @param record the TransactionRecord associated with this event
+	 * {@inheritDoc}
 	 */
-	void run(BrokerInfo info, TransactionRecord<?> record);
+	@Override
+	public final Object object() {
+		return builder.object();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Optional<UUID> playerID() {
+		return builder.playerID();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final Optional<UUID> worldID() {
+		return builder.worldID();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final int volume() {
+		return builder.volume();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final BigDecimal value() {
+		return builder.value();
+	}
 
 }

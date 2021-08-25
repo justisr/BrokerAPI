@@ -20,16 +20,25 @@
  * SOFTWARE.
  *
  */
-package com.gmail.justisroot.broker;
+package com.gmail.justisroot.broker.record;
 
-interface TransactionPreProcessEventHandler {
+import com.gmail.justisroot.broker.record.SaleRecord.SaleRecordBuilder;
+
+public final class PreProcessSaleRecord extends PreProcessTransactionRecord implements Sale<Object> {
+
+	private final SaleRecordBuilder<?> builder;
+
+	PreProcessSaleRecord(SaleRecordBuilder<?> builder) {
+		super(builder);
+		this.builder = builder;
+	}
 
 	/**
-	 * Run the event
-	 * @param info the BrokerInfo associated with this event
-	 * @param preProcessTransactionRecord the TransactionRecordBuilder associated with this event
-	 * @return true if the event was cancelled, otherwise false
+	 * {@inheritDoc}
 	 */
-	boolean run(BrokerInfo info, PreProcessTransactionRecord preProcessTransactionRecord);
+	@Override
+	public boolean isListing() {
+		return builder.isListing();
+	}
 
 }

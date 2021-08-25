@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.gmail.justisroot.broker.record.PurchaseRecord;
+import com.gmail.justisroot.broker.record.SaleRecord;
+
 /**
  * @author Justis R
  *
@@ -48,13 +51,13 @@ public abstract class MockBroker implements Broker<String> {
 	}
 
 	@Override
-	public TransactionRecord<String> buy(Optional<UUID> playerID, Optional<UUID> worldID, String object, int amount) {
-		return TransactionRecord.startPurchase(this, object, playerID, worldID).setValue(BigDecimal.valueOf(amount*getBuyPrice(playerID, worldID, object, amount).get().intValue())).setVolume(amount).buildSuccess(null);
+	public PurchaseRecord<String> buy(Optional<UUID> playerID, Optional<UUID> worldID, String object, int amount) {
+		return PurchaseRecord.start(this, object, playerID, worldID).setValue(BigDecimal.valueOf(amount*getBuyPrice(playerID, worldID, object, amount).get().intValue())).setVolume(amount).buildSuccess();
 	}
 
 	@Override
-	public TransactionRecord<String> sell(Optional<UUID> playerID, Optional<UUID> worldID, String object, int amount) {
-		return TransactionRecord.startSale(this, object, playerID, worldID).setValue(BigDecimal.valueOf(amount*getSellPrice(playerID, worldID, object, amount).get().intValue())).setVolume(amount).buildSuccess(null);
+	public SaleRecord<String> sell(Optional<UUID> playerID, Optional<UUID> worldID, String object, int amount) {
+		return SaleRecord.start(this, object, playerID, worldID).setValue(BigDecimal.valueOf(amount*getSellPrice(playerID, worldID, object, amount).get().intValue())).setVolume(amount).buildSuccess();
 	}
 
 	@Override
