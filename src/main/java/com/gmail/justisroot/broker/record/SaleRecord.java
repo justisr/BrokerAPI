@@ -59,14 +59,14 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		}
 
 		/**
-		 * Set whether or not this sale is merely a listing.<br>
+		 * Set whether or not this sale is a listing.<br>
 		 * <br>
 		 * A listing is a type of sale in which funds are not transferred, because the item is merely "put up" for sale.<br>
 		 * Examples of a listing type sale include an item being added to an auction or a shop.<br>
 		 * Because the item is not yet sold and funds are not transferred, the {@link #value()} of a listing sale will always be 0.
 		 *
 		 * @param listing true if the item is being put up for sale, false if it is being sold
-		 * @return
+		 * @return this
 		 */
 		public SaleRecordBuilder<T> setListing(boolean listing) {
 			this.listing = listing;

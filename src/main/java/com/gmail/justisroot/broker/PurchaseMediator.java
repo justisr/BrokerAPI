@@ -50,10 +50,10 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * <b>Always use {@link #getBuyPrice(int)} when attempting to determine the cost of multiple items.</b><br>
 	 * Not all Broker implementations will have static prices. Thus, simply multiplying the price of one item by x to get the price of x items may produce incorrect results.<br>
 	 * <br>
-	 * <b>Never proceed with a purchase without having run {@link #buy()} which will return a TransactionRecord with the details you must use for your transaction.</b><br>
+	 * <b>Never proceed with a purchase without having run {@link #buy()} which will return a PurchaseRecord with the details you must use for your transaction.</b><br>
 	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #buy()} is there for that purpose<br>
-	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
-	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
+	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link PurchaseRecord}'s volume and value.<br>
+	 * Exchange no more or less than what the {@link PurchaseRecord} specifies.
 	 *
 	 * @return An optional BigDecimal representation of the price the player will need to pay in order to buy the object, empty if no price is associated with this object
 	 */
@@ -69,8 +69,8 @@ public final class PurchaseMediator<T> extends BrokerMediator<T> {
 	 * <br>
 	 * <b>Never proceed with a purchase without having run {@link #buy()}</b><br>
 	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #buy()} is there for that purpose<br>
-	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
-	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
+	 * {@link #buy()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link PurchaseRecord}'s volume and value.<br>
+	 * Exchange no more or less than what the {@link PurchaseRecord} specifies.
 	 *
 	 * @param volume The amount of the object to get the sum buy price of
 	 * @return An optional BigDecimal representation of the price the player will need to pay in order to buy these objects, empty if no price is associated with this object

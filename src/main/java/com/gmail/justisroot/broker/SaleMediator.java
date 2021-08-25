@@ -52,8 +52,8 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * <br>
 	 * <b>Never proceed with a sale without having run {@link #sell()}</b><br>
 	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #sell()} is there for that purpose<br>
-	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
-	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
+	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link SaleRecord}'s volume and value.<br>
+	 * Exchange no more or less than what the {@link SaleRecord} specifies.
 	 *
 	 * @return An optional BigDecimal representation of the price the player will be paid as a result of selling, empty if no price is associated with this object
 	 */
@@ -69,8 +69,8 @@ public final class SaleMediator<T> extends BrokerMediator<T> {
 	 * <br>
 	 * <b>Never proceed with a sale without having run {@link #sell()}</b><br>
 	 * Implementing Brokers may need to be kept informed of when a transaction has taken place in order to maintain themselves and {@link #sell()} is there for that purpose<br>
-	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link TransactionRecord}'s volume and value.<br>
-	 * Exchange no more or less than what the {@link TransactionRecord} specifies.
+	 * {@link #sell()} also triggers the transaction events, including the pre-process event, which allows for 3rd party modifications to the {@link SaleRecord}'s volume and value.<br>
+	 * Exchange no more or less than what the {@link SaleRecord} specifies.
 	 *
 	 * @param volume The amount of the object to get the sum sell price of
 	 * @return An optional BigDecimal representation of the price the player will be paid as a result of selling, empty if no price is associated with this object
