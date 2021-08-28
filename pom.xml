@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gmail.justisroot.broker</groupId>
 	<artifactId>BrokerAPI</artifactId>
-	<version>1.0.0-rc3</version>
+	<version>1.0.0-rc4</version>
 	<name>BrokerAPI</name>
 
 	<dependencies>
@@ -59,10 +59,12 @@
 					</execution>
 				</executions>
 				<configuration>
+					<overview>src/javadoc/overview.html</overview>
+					<javadocDirectory>src/javadoc</javadocDirectory>
 					<groups>
 						<group>
-						<title>BrokerAPI</title>
-						<packages>com.gmail.justisroot.broker*</packages>
+							<title>BrokerAPI</title>
+							<packages>com.gmail.justisroot.broker*</packages>
 						</group>
 					</groups>
 					<excludePackageNames>com.gmail.justisroot.broker.events</excludePackageNames>
