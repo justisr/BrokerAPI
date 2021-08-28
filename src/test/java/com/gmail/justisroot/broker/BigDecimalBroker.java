@@ -14,10 +14,6 @@ import java.util.UUID;
 import com.gmail.justisroot.broker.record.PurchaseRecord;
 import com.gmail.justisroot.broker.record.SaleRecord;
 
-/**
- * @author Justis R
- *
- */
 public class BigDecimalBroker implements Broker<BigDecimal> {
 
 	public static final String ID = "BigDecimalBroker";

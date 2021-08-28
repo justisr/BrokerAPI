@@ -7,7 +7,12 @@
  */
 package com.gmail.justisroot.broker.record;
 
-interface Sale<T> extends Transaction<T> {
+/**
+ * This interface defines the information present for every sale.
+ *
+ * @param <T> The type of object being transacted.
+ */
+public interface Sale<T> extends Transaction<T> {
 
 	/**
 	 * Was this transaction a listing?<br>

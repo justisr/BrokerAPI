@@ -26,10 +26,6 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import com.gmail.justisroot.broker.events.MockEvent;
 
-/**
- * @author Justis R
- *
- */
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 class BrokerEventTest {

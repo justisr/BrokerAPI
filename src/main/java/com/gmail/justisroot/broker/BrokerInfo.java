@@ -25,6 +25,12 @@ package com.gmail.justisroot.broker;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * An information wrapper for a {@link Broker}, to be passed during external events<br>
+ * <br>
+ * We never want to expose the raw {@link Broker} to 3rd party software, because it may be inappropriately re-used for different combinations of IDs and object instances.
+ * Each combination must pass through {@link BrokerAPI}'s {@link BrokerAPI#forSale(java.util.UUID, java.util.UUID, Object)} or {@link BrokerAPI#forPurchase(java.util.UUID, java.util.UUID, Object)} methods in order to ensure compliance with configuration and implementation settings.
+ */
 public final class BrokerInfo {
 
 	private static final Map<Broker<?>, BrokerInfo> CACHE = new HashMap<>();
@@ -38,6 +44,12 @@ public final class BrokerInfo {
 		this.type = broker.getType();
 	}
 
+	/**
+	 * Get a BrokerInfo instance for the provided Broker<br>
+	 * May create a new instance or retrieve an existing one from an internal cache.
+	 * @param broker The Broker to get the BrokerInfo for
+	 * @return a BrokerInfo instance for the provided Broker
+	 */
 	public static final BrokerInfo get(Broker<?> broker) {
 		BrokerInfo info = CACHE.get(broker);
 		if (info == null) CACHE.put(broker, info = new BrokerInfo(broker));
@@ -45,8 +57,9 @@ public final class BrokerInfo {
 	}
 
 	/**
-	 * Get the name of the provider of the Broker involved in this event
-	 * @return the name of the provider of the involved Broker
+	 * Get the name of this Broker's provider
+	 *
+	 * @return the name of the provider of the Broker involved in this event
 	 */
 	public final String provider() {
 		return this.provider;
@@ -64,7 +77,7 @@ public final class BrokerInfo {
 	/**
 	 * Get the Object type that this Broker handles.
 	 *
-	 * @return the Object type that this Broker handles
+	 * @return the Object type handled by the Broker involved in this event
 	 */
 	public final Class<?> type() {
 		return this.type;

@@ -28,7 +28,12 @@ import java.util.UUID;
 
 import com.gmail.justisroot.broker.record.TransactionRecord.TransactionRecordBuilder;
 
-abstract class PreProcessTransactionRecord implements Transaction<Object> {
+/**
+ * A read-only wrapper for {@link TransactionRecordBuilder}.<br>
+ * <br>
+ * To be provided on transaction events.
+ */
+public abstract class PreProcessTransactionRecord implements Transaction<Object> {
 
 	private final TransactionRecordBuilder<?> builder;
 

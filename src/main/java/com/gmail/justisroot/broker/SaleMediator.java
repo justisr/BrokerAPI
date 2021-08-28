@@ -28,6 +28,14 @@ import java.util.UUID;
 
 import com.gmail.justisroot.broker.record.SaleRecord;
 
+/**
+ * The medium through which callers interact with their returned {@link Broker}.<br>
+ * <br>
+ * This class ensures that the {@link Broker} returned by {@link BrokerAPI} is not exposed, so that only the provided IDs and object instance may be used to transact through it.
+ * This is important, because the {@link Broker} implementation and end user configuration determine which implementation should be used for which objects.
+ *
+ * @param <T> The type of object being transacted
+ */
 public final class SaleMediator<T> extends BrokerMediator<T> {
 
 	SaleMediator(Broker<T> broker, UUID playerID, UUID worldID, T object) {

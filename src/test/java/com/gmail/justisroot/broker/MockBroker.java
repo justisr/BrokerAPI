@@ -14,10 +14,6 @@ import java.util.UUID;
 import com.gmail.justisroot.broker.record.PurchaseRecord;
 import com.gmail.justisroot.broker.record.SaleRecord;
 
-/**
- * @author Justis R
- *
- */
 public abstract class MockBroker implements Broker<String> {
 
 	@Override

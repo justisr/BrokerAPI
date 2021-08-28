@@ -25,12 +25,20 @@ package com.gmail.justisroot.broker;
 import java.util.Optional;
 import java.util.UUID;
 
-abstract class BrokerMediator<T> {
+/**
+ * The medium through which callers interact with their returned {@link Broker}.<br>
+ * <br>
+ * This class ensures that the {@link Broker} returned by {@link BrokerAPI} is not exposed, so that only the provided IDs and object instance may be used to transact through it.
+ * This is important, because the {@link Broker} implementation and end user configuration determine which implementation should be used for which objects.
+ *
+ * @param <T> The type of object being transacted
+ */
+public abstract class BrokerMediator<T> {
 
-	protected final Broker<T> broker;
-	protected final BrokerInfo info;
-	protected final Optional<UUID> playerID, worldID;
-	protected final T object;
+	final Broker<T> broker;
+	final BrokerInfo info;
+	final Optional<UUID> playerID, worldID;
+	final T object;
 
 	BrokerMediator(Broker<T> broker, UUID playerID, UUID worldID, T object) {
 		this.broker = broker;

@@ -44,6 +44,11 @@ public final class BrokerEventService {
 
 	private BrokerEventService() {}
 
+	/**
+	 * Get the current instance of the {@link BrokerEventService}
+	 *
+	 * @return the current instance of the {@link BrokerEventService}
+	 */
 	public static BrokerEventService current() {
 		return INSTANCE;
 	}

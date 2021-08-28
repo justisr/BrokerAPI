@@ -11,7 +11,12 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-interface Transaction<T> {
+/**
+ * This interface defines the information present for every transaction.
+ *
+ * @param <T> The type of object being transacted.
+ */
+public interface Transaction<T> {
 
 	/**
 	 * Was this transaction a sale?

@@ -24,6 +24,11 @@ package com.gmail.justisroot.broker.record;
 
 import com.gmail.justisroot.broker.record.PurchaseRecord.PurchaseRecordBuilder;
 
+/**
+ * A read-only wrapper for {@link PurchaseRecordBuilder}.<br>
+ * <br>
+ * To be provided on transaction events.
+ */
 public final class PreProcessPurchaseRecord extends PreProcessTransactionRecord implements Purchase<Object> {
 
 	PreProcessPurchaseRecord(PurchaseRecordBuilder<?> builder) {

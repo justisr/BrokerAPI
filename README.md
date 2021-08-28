@@ -4,9 +4,8 @@ An abstraction layer enabling communication between unlimited unknown callers an
 
 It's a lightweight but powerful library for instantly enabling extensive cross compatibility and flexibility without the overhead, 3rd party dependencies, version reliance, or licensing burdens and conflicts.
 
-
 ## Include with Maven
-[![](https://jitci.com/gh/justisr/BrokerAPI/svg)](https://jitci.com/gh/justisr/BrokerAPI)
+[![](https://jitci.com/gh/justisr/BrokerAPI/svg)](https://jitci.com/gh/justisr/BrokerAPI) 
 ```
 <repositories>
     <repository>
@@ -24,6 +23,9 @@ It's a lightweight but powerful library for instantly enabling extensive cross c
 </dependencies>
 ```
 Using `master-SNAPSHOT` in place of a version will always provide you the latest build for the master branch. Alternatively, use the short form of your target commit hash.
+
+### JavaDocs 
+Here you can find the latest version of BrokerAPI’s public [JavaDocs](http://jitpack.io/com/github/justisr/BrokerAPI/latest/javadoc/).
 
 ## Implementations
 Broker currently has a [Spigot](https://github.com/justisr/Broker-Spigot) server implementation and a Sponge server implementation is in the works.

@@ -29,12 +29,12 @@ import java.util.UUID;
 import com.gmail.justisroot.broker.BrokerInfo;
 
 /**
- * A record of a potentially cancelled or incomplete transaction.<br>
- * The record is only complete once the transaction initiator has run {@link #complete()}
+ * The transaction record to return for transactions. Should always be incomplete when returned, to be completed by the caller.<br>
+ * The record is only complete once the transaction caller has run {@link #complete()}
  *
  * @param <T> The object type that this record's transaction handles
  */
-abstract class TransactionRecord<T> implements Transaction<T> {
+public abstract class TransactionRecord<T> implements Transaction<T> {
 
 	private Runnable onComplete;
 
@@ -45,13 +45,13 @@ abstract class TransactionRecord<T> implements Transaction<T> {
 	private final BigDecimal value;
 	private final Optional<String> failReason;
 
-	TransactionRecord(BrokerInfo info, T object, Optional<UUID> playerID, Optional<UUID> worldID, int volume, BigDecimal value, Runnable onComplete, Optional<String> failReason) {
-		this.info = info;
-		this.object = object;
-		this.volume = volume;
-		this.value = value;
-		this.playerID = playerID;
-		this.worldID = playerID;
+	TransactionRecord(TransactionRecordBuilder<T> builder, Runnable onComplete, Optional<String> failReason) {
+		this.info = builder.info;
+		this.object = builder.object;
+		this.volume = builder.volume;
+		this.value = builder.value;
+		this.playerID = builder.playerID;
+		this.worldID = builder.playerID;
 		this.onComplete = onComplete;
 		this.failReason = failReason;
 	}
@@ -115,11 +115,11 @@ abstract class TransactionRecord<T> implements Transaction<T> {
 	}
 
 	/**
-	 * Completes the Broker's end of the sale and initiates the appropriate TransactionEvent.<br>
+	 * Completes the Broker's end of the transaction and initiates the appropriate transaction event.<br>
 	 * <br>
 	 * To be run by the caller when the transaction has been completed. (i.e funds transferred, items moved, etc)
 	 *
-	 * @return true if the Broker's completion and the TransactionEvent ran, false if it had already been run, or if the transaction was not a success
+	 * @return true if the Broker's completion and the transaction event ran, false if it had already been run, or if the transaction was not a success
 	 */
 	public boolean complete() {
 		if (!isSuccess() || onComplete == null) return false;
@@ -129,10 +129,11 @@ abstract class TransactionRecord<T> implements Transaction<T> {
 	}
 
 	/**
-	 * A builder for the record of a transaction attempt.<br>
-	 * Changes resulting from the success of the representing transaction should only take place within the {@code Runnable} submitted via {@link #buildSuccess(Runnable)}
+	 * Builder for a {@link TransactionRecord}.<br>
+	 * <br>
+	 * Changes resulting from the success of the representing transaction should only take place within the {@code Runnable} submitted via {@link #buildSuccess(Runnable)}.
 	 *
-	 * @param <T> The object type that this record's transaction handles
+	 * @param <T> The type of object used in the transaction that this record represents.
 	 */
 	public static abstract class TransactionRecordBuilder<T> implements Transaction<T> {
 
@@ -213,33 +214,33 @@ abstract class TransactionRecord<T> implements Transaction<T> {
 		}
 
 		/**
-		 * Attempt to build a successful TransactionReport for this transaction.<br>
+		 * Attempt to build a successful {@link TransactionRecord} for this transaction.<br>
 		 * <br>
 		 * Same as {@link #buildSuccess(Runnable)} where onComplete is null.<br>
 		 * <br>
 		 * <b>This will trigger the TransactionPreProcessEvent</b> and may result in the transaction being cancelled.<br>
 		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
 		 *
-		 * @return A TransactionReport for this transaction, potentially non-successful if cancelled by 3rd party Listeners
+		 * @return A {@link TransactionRecord} for this transaction, potentially non-successful if cancelled by 3rd party Listeners
 		 */
 		public abstract TransactionRecord<T> buildSuccess();
 
 		/**
-		 * Attempt to build a successful TransactionReport for this transaction.<br>
+		 * Attempt to build a successful {@link TransactionRecord} for this transaction.<br>
 		 * <br>
 		 * <b>This will trigger the TransactionPreProcessEvent</b> and may result in the transaction being cancelled.<br>
 		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
 		 *
 		 * @param onComplete A Runnable to be called if the transaction isn't cancelled and the transaction is complete. Accepts null values.
-		 * @return A TransactionReport for this transaction, potentially non-successful if cancelled by 3rd party Listeners
+		 * @return A {@link TransactionRecord} for this transaction, potentially non-successful if cancelled by 3rd party Listeners
 		 */
 		public abstract TransactionRecord<T> buildSuccess(Runnable onComplete);
 
 		/**
-		 * Build a failed TransactionReport for this transaction with a specified failure reason.
+		 * Build a failed {@link TransactionRecord} for this transaction with a specified failure reason.
 		 *
 		 * @param failReason The failure reason for this transaction
-		 * @return A TransactionReport for a failed transaction
+		 * @return A {@link TransactionRecord} for a failed transaction
 		 */
 		public abstract TransactionRecord<T> buildFailure(String failReason);
 

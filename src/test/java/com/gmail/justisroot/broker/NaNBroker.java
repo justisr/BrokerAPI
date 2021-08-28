@@ -10,10 +10,6 @@ package com.gmail.justisroot.broker;
 import java.util.Optional;
 import java.util.UUID;
 
-/**
- * @author Justis R
- *
- */
 public class NaNBroker extends MockBroker {
 
 	public static final String ID = "NaNBroker";

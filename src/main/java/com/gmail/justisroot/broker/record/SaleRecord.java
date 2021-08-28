@@ -15,13 +15,23 @@ import com.gmail.justisroot.broker.Broker;
 import com.gmail.justisroot.broker.BrokerInfo;
 import com.gmail.justisroot.broker.events.BrokerEventService;
 
+/**
+ * The transaction record to return for sales. Should always be incomplete when returned, to be completed by the caller.<br>
+ * <br>
+ * Records are created using the builder pattern.<br>
+ * To start building a record, use {@link #start(Broker, Object, Optional, Optional)}.
+ *
+ * The record is only complete once the transaction initiator has run {@link #complete()}.
+ *
+ * @param <T> The type of object used in the transaction that this record represents.
+ */
 public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 
 	private final boolean listing;
 
-	private SaleRecord(BrokerInfo info, T object, Optional<UUID> playerID, Optional<UUID> worldID, int volume, BigDecimal value, boolean listing, Runnable onComplete, Optional<String> failReason) {
-		super(info, object, playerID, worldID, volume, value, onComplete, failReason);
-		this.listing = listing;
+	private SaleRecord(SaleRecordBuilder<T> builder, Runnable onComplete, Optional<String> failReason) {
+		super(builder, onComplete, failReason);
+		this.listing = builder.listing;
 	}
 
 	/**
@@ -42,11 +52,18 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		return true;
 	}
 
+	/**
+	 * Builder for a {@link SaleRecord}.<br>
+	 * <br>
+	 * Changes resulting from the success of the representing transaction should only take place within the {@code Runnable} submitted via {@link #buildSuccess(Runnable)}.
+	 *
+	 * @param <T> The type of object used in the transaction that this record represents.
+	 */
 	public static final class SaleRecordBuilder<T> extends TransactionRecordBuilder<T> implements Sale<T> {
 
 		private boolean listing;
 
-		SaleRecordBuilder(BrokerInfo info, T object, Optional<UUID> playerID, Optional<UUID> worldID) {
+		private SaleRecordBuilder(BrokerInfo info, T object, Optional<UUID> playerID, Optional<UUID> worldID) {
 			super(info, object, playerID, worldID);
 		}
 
@@ -99,14 +116,14 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		}
 
 		/**
-		 * Attempt to build a successful SaleRecord for this transaction.<br>
+		 * Attempt to build a successful {@link SaleRecord} for this transaction.<br>
 		 * <br>
 		 * Same as {@link #buildSuccess(Runnable)} where onComplete is null.<br>
 		 * <br>
 		 * <b>This will trigger the TransactionPreProcessEvent</b> and may result in the transaction being cancelled.<br>
 		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
 		 *
-		 * @return A SaleRecord for this transaction, potentially non-successful if cancelled by 3rd party Listeners
+		 * @return A {@link SaleRecord} for this transaction, potentially non-successful if cancelled by 3rd party Listeners
 		 */
 		@Override
 		public SaleRecord<T> buildSuccess() {
@@ -114,13 +131,13 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		}
 
 		/**
-		 * Attempt to build a successful SaleRecord for this transaction.<br>
+		 * Attempt to build a successful {@link SaleRecord} for this transaction.<br>
 		 * <br>
 		 * <b>This will trigger the SalePreProcessEvent</b> and may result in the transaction being cancelled.<br>
 		 * Ensure that your implementation respects the returned record by not proceeding with the transaction if a failure reason is present.
 		 *
 		 * @param onComplete A Runnable to be called if the transaction isn't cancelled and the transaction is complete. Accepts null values.
-		 * @return A SaleRecord for this transaction, potentially non-successful if cancelled by 3rd party Listeners
+		 * @return A {@link SaleRecord} for this transaction, potentially non-successful if cancelled by 3rd party Listeners
 		 */
 		@Override
 		public SaleRecord<T> buildSuccess(Runnable onComplete) {
@@ -130,10 +147,10 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		}
 
 		/**
-		 * Build a failed SaleRecord for this transaction with a specified failure reason.
+		 * Build a failed {@link SaleRecord} for this transaction with a specified failure reason.
 		 *
 		 * @param failReason The failure reason for this transaction
-		 * @return A SaleRecord for a failed transaction
+		 * @return A {@link SaleRecord} for a failed transaction
 		 */
 		@Override
 		public SaleRecord<T> buildFailure(String failReason) {
@@ -141,7 +158,7 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		}
 
 		private SaleRecord<T> build(Runnable onComplete, Optional<String> failReason) {
-			return new SaleRecord<>(info, object, playerID, worldID, volume, value, listing, onComplete, failReason);
+			return new SaleRecord<>(this, onComplete, failReason);
 		}
 
 	}
