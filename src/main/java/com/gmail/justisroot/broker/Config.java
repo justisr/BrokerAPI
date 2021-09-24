@@ -20,22 +20,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.gmail.justisroot.broker.Section.HMFFWrapper;
+import com.gmail.justisroot.hmff.HMFF;
+import com.gmail.justisroot.hmff.Section;
 
 final class Config {
 
-	private final HMFFWrapper file;
+	private final HMFF file;
 
 	private final Map<String, Integer> brokers = new HashMap<>();
 	private final Set<String> disabled = new HashSet<>();
 	private final Set<String> generous = new HashSet<>();
 
-	private static final String PPATH = "priorities.";
+	private static final String PPATH = "priorities";
 	private static final String GPATH = "pass-generously";
 
 	Config(File configFolder) {
-		file = new HMFFWrapper(new File(configFolder.getPath() + File.separator + "config.hmff"));
-		if (!file.getFile().exists() || file.getContent().isBlank()) applyDefaults();
+		file = new HMFF(new File(configFolder.getPath() + File.separator + "config.hmff"));
+		if (!file.getFile().exists() || file.getFile().length() < 1) applyDefaults();
 		reload();
 	}
 
@@ -51,13 +52,13 @@ final class Config {
 				"All broker implementations may set their own priorty between -128 and 127. To alter the priority of a broker, specify the priority and identifier here.", "Format:", "plugin_id: #",
 				"Enter a non-numeric value to disable use of the broker (e.g: Disabled)"
 		};
-		file.setComments(PPATH, header);
-		file.set(PPATH + "example-high-priority-broker", "200");
-		file.set(PPATH + "example-low-priority-broker", "-200");
-		file.setComments(GPATH, "",
+		file.getOrCreateSection(PPATH).comments().set(header);
+		file.set("200", PPATH, "example-high-priority-broker");
+		file.set("-200", PPATH,  "example-low-priority-broker");
+		file.getOrCreateSection(GPATH).comments().set("",
 			"All brokers pass on the object to be transacted to the next highest priority broker, whenever the implementation can't handle that object or that player or world. (e.g a spawner plugin not handling non-spawner items)",
 			"However, brokers configured to pass generously will also pass on objects that they can handle, but which the handling of will result in the failure of the transaction. (e.g permissions, location, online availability, etc)");
-		file.set(GPATH, "example-broker example-broker2 example-broker3");
+		file.set("example-broker example-broker2 example-broker3", GPATH);
 		file.save();
 	}
 
@@ -70,19 +71,18 @@ final class Config {
 		brokers.clear();
 		generous.clear();
 		disabled.clear();
-		Section priorities = file.hardGetSection(PPATH);
-		for (String key : priorities.getChildren().keySet()) {
+		Section priorities = file.getOrCreateSection(PPATH);
+		for (String key : priorities.children().keySet()) {
 			String broker = key;
-			Integer priority;
 			try {
-				priority = Integer.parseInt(priorities.getString(broker));
+				Integer priority = priorities.getInteger(broker).get();
+				brokers.put(broker, priority);
 			} catch (NumberFormatException e) {
 				disabled.add(broker);
 				continue;
 			}
-			brokers.put(broker, priority);
 		}
-		for (String broker : file.hardGetString(GPATH, "example-broker example-broker2 example-broker3").split("\\s+")) {
+		for (String broker : file.getOrSetString("example-broker example-broker2 example-broker3", GPATH).split("\\s+")) {
 			generous.add(broker);
 		}
 		file.save();
@@ -93,7 +93,7 @@ final class Config {
 	}
 
 	final void setPriority(Broker<?> broker, Integer priorty) {
-		file.set(PPATH + broker.getId(), priorty);
+		file.set(priorty, PPATH, broker.getId());
 		brokers.put(broker.getId(), priorty);
 	}
 
@@ -103,7 +103,7 @@ final class Config {
 	 * @param broker The Broker to ensure the configuration entry for
 	 */
 	final void ensureEntry(Broker<?> broker) {
-		file.hardGetString(PPATH + broker.getId(), String.valueOf(broker.getPriority()));
+		file.getOrSetString(String.valueOf(broker.getPriority()), PPATH, broker.getId());
 		save();
 	}
 

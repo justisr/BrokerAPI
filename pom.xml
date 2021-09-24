@@ -4,8 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gmail.justisroot.broker</groupId>
 	<artifactId>BrokerAPI</artifactId>
-	<version>1.0.0-rc4</version>
+	<version>1.0.0-rc5</version>
 	<name>BrokerAPI</name>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -13,6 +20,11 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.7.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.justisr</groupId>
+			<artifactId>HMFF</artifactId>
+			<version>master-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -59,6 +71,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<quiet>true</quiet>
 					<overview>src/javadoc/overview.html</overview>
 					<javadocDirectory>src/javadoc</javadocDirectory>
 					<groups>
@@ -70,6 +83,34 @@
 					<excludePackageNames>com.gmail.justisroot.broker.events</excludePackageNames>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<configuration>
+					<artifactSet>
+						<includes>
+							<include>com.github.justisr:HMFF</include>
+						</includes>
+					</artifactSet>
+					<relocations>
+						<relocation>
+							<pattern>com.gmail.justisroot.hmff</pattern>
+							<shadedPattern>com.gmail.justisroot.broker.hmff</shadedPattern>
+						</relocation>
+					</relocations>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>
