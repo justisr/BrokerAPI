@@ -27,8 +27,12 @@ import com.gmail.justisroot.broker.events.BrokerEventService;
  */
 public class PurchaseRecord<T> extends TransactionRecord<T> implements Purchase<T> {
 
-	private PurchaseRecord(PurchaseRecordBuilder<T> builder, Runnable onComplete, Optional<String> failReason) {
-		super(builder, onComplete, failReason);
+	private PurchaseRecord(PurchaseRecordBuilder<T> builder, Optional<String> failReason) {
+		super(builder, failReason);
+	}
+
+	private PurchaseRecord(PurchaseRecordBuilder<T> builder, Runnable onComplete) {
+		super(builder, onComplete);
 	}
 
 	/**
@@ -97,8 +101,8 @@ public class PurchaseRecord<T> extends TransactionRecord<T> implements Purchase<
 		@Override
 		public PurchaseRecord<T> buildSuccess(Runnable onComplete) {
 			boolean cancelled = BrokerEventService.current().createPurchasePreProcessEvent(info, new PreProcessPurchaseRecord(this));
-			if (cancelled) return build(onComplete, Optional.of("Purchase cancelled"));
-			return build(onComplete == null ? () -> {} : onComplete, Optional.empty());
+			if (cancelled) return new PurchaseRecord<>(this, Optional.of("Purchase cancelled"));
+			return new PurchaseRecord<>(this, onComplete == null ? () -> {} : onComplete);
 		}
 
 		/**
@@ -109,11 +113,7 @@ public class PurchaseRecord<T> extends TransactionRecord<T> implements Purchase<
 		 */
 		@Override
 		public PurchaseRecord<T> buildFailure(String failReason) {
-			return build(null, Optional.ofNullable(failReason));
-		}
-
-		private PurchaseRecord<T> build(Runnable onComplete, Optional<String> failReason) {
-			return new PurchaseRecord<>(this, onComplete, failReason);
+			return new PurchaseRecord<>(this, Optional.ofNullable(failReason));
 		}
 
 	}

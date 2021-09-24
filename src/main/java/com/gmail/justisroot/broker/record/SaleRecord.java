@@ -29,8 +29,13 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 
 	private final boolean listing;
 
-	private SaleRecord(SaleRecordBuilder<T> builder, Runnable onComplete, Optional<String> failReason) {
-		super(builder, onComplete, failReason);
+	private SaleRecord(SaleRecordBuilder<T> builder, Optional<String> failReason) {
+		super(builder, failReason);
+		this.listing = builder.listing;
+	}
+
+	private SaleRecord(SaleRecordBuilder<T> builder, Runnable onComplete) {
+		super(builder, onComplete);
 		this.listing = builder.listing;
 	}
 
@@ -142,8 +147,8 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		@Override
 		public SaleRecord<T> buildSuccess(Runnable onComplete) {
 			boolean cancelled = BrokerEventService.current().createSalePreProcessEvent(info, new PreProcessSaleRecord(this));
-			if (cancelled) return build(onComplete, Optional.of("Sale cancelled"));
-			return build(onComplete == null ? () -> {} : onComplete, Optional.empty());
+			if (cancelled) return new SaleRecord<>(this, Optional.of("Sale cancelled"));
+			return new SaleRecord<>(this, onComplete == null ? () -> {} : onComplete);
 		}
 
 		/**
@@ -154,11 +159,7 @@ public class SaleRecord<T> extends TransactionRecord<T> implements Sale<T> {
 		 */
 		@Override
 		public SaleRecord<T> buildFailure(String failReason) {
-			return build(null, Optional.ofNullable(failReason));
-		}
-
-		private SaleRecord<T> build(Runnable onComplete, Optional<String> failReason) {
-			return new SaleRecord<>(this, onComplete, failReason);
+			return new SaleRecord<>(this, Optional.ofNullable(failReason));
 		}
 
 	}
