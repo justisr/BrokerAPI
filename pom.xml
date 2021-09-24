@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gmail.justisroot.broker</groupId>
 	<artifactId>BrokerAPI</artifactId>
-	<version>1.0.0-rc7</version>
+	<version>1.0.0-rc8</version>
 	<name>BrokerAPI</name>
 
 	<repositories>

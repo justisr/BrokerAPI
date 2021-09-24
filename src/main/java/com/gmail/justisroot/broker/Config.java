@@ -47,6 +47,7 @@ final class Config {
 				"##############",
 				"- hmff syntax for Sublime Text: https://gist.github.com/justisr/6be4be9b7cd1bef1547c7ada26cdbc4d",
 				"",
+				"",
 				"Settings for unregistered Brokers are ignored.",
 				"",
 				"All broker implementations may set their own priorty between -128 and 127. To alter the priority of a broker, specify the priority and identifier here.", "Format:", "plugin_id: #",
@@ -55,7 +56,7 @@ final class Config {
 		file.getOrCreateSection(PPATH).comments().set(header);
 		file.set("200", PPATH, "example-high-priority-broker");
 		file.set("-200", PPATH,  "example-low-priority-broker");
-		file.getOrCreateSection(GPATH).comments().set("",
+		file.getOrCreateSection(GPATH).comments().set(
 			"All brokers pass on the object to be transacted to the next highest priority broker, whenever the implementation can't handle that object or that player or world. (e.g a spawner plugin not handling non-spawner items)",
 			"However, brokers configured to pass generously will also pass on objects that they can handle, but which the handling of will result in the failure of the transaction. (e.g permissions, location, online availability, etc)");
 		file.set("example-broker example-broker2 example-broker3", GPATH);
