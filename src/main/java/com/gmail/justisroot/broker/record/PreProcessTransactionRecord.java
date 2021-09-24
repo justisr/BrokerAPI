@@ -26,8 +26,6 @@ import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.gmail.justisroot.broker.record.TransactionRecord.TransactionRecordBuilder;
-
 /**
  * A read-only wrapper for {@link TransactionRecordBuilder}.<br>
  * <br>

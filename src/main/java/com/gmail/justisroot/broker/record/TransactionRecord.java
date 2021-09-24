@@ -49,6 +49,7 @@ public abstract class TransactionRecord<T> implements Transaction<T> {
 	TransactionRecord(TransactionRecordBuilder<T> builder, Runnable onComplete) {
 		this(builder);
 		this.onComplete = onComplete;
+		this.failReason = Optional.empty();
 	}
 
 	TransactionRecord(TransactionRecordBuilder<T> builder, Optional<String> failReason) {
