@@ -5,7 +5,11 @@ An abstraction layer enabling communication between unlimited unknown callers an
 It's a lightweight but powerful library for instantly enabling extensive cross compatibility and flexibility without the overhead, 3rd party dependencies, version reliance, or licensing burdens and conflicts.
 
 ## Include with Maven
+
 [![](https://jitci.com/gh/justisr/BrokerAPI/svg)](https://jitci.com/gh/justisr/BrokerAPI) 
+
+[![](https://bettercodehub.com/edge/badge/justisr/BrokerAPI?branch=master)](https://bettercodehub.com)
+
 ```
 <repositories>
     <repository>
